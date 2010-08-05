@@ -11,7 +11,7 @@ namespace Observal.Demo
     {
         private readonly ObservableCollection<Employee> _rootEmployees = new ObservableCollection<Employee>();
         private readonly ObservableCollection<Employee> _filteredEmployees = new ObservableCollection<Employee>();
-        private Observer _observer;
+        private readonly Observer _observer;
 
         public OrgChartViewModel(IEnumerable<Employee> employees)
         {
