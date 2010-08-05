@@ -39,7 +39,7 @@ namespace Observal.Extensions
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var handler = PropertyChanged;
-            if (handler != null) handler(this, e);
+            if (handler != null) handler(sender, e);
         }
     }
 }

@@ -30,6 +30,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Observal.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,6 +49,8 @@
   <ItemGroup>
     <Compile Include="Extensions\CollectionExpansionExtension.cs" />
     <Compile Include="Extensions\HierarchyExtension.cs" />
+    <Compile Include="Extensions\ItemEventArgs.cs" />
+    <Compile Include="Extensions\ItemsChangedExtension.cs" />
     <Compile Include="Extensions\PropertyChangedExtension.cs" />
     <Compile Include="ObservableCollectionTracker.cs" />
     <Compile Include="IObserverExtension.cs" />

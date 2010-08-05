@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace Observal.Utilities
 {
     [DebuggerNonUserCode]
-    internal static class Guard
+    public static class Guard
     {
         public static void ArgumentNotNull(object argument, string parameterName)
         {

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Observal.Demo.Employee">
+    <Position X="5" Y="2.5" Width="1.5" />
+    <Members>
+      <Field Name="_employees" Hidden="true" />
+      <Field Name="_name" Hidden="true" />
+      <Field Name="_salary" Hidden="true" />
+      <Method Name="OnPropertyChanged" Hidden="true" />
+      <Event Name="PropertyChanged" Hidden="true" />
+    </Members>
+    <AssociationLine Name="DirectReports" Type="Observal.Demo.Employee" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.5" Y="3.764" />
+        <Point X="6.75" Y="3.764" />
+        <Point X="6.75" Y="3.09" />
+        <Point X="6.5" Y="3.09" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.372" Y="-0.307" Height="0.182" Width="3.505" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAICAAAAAAAAAAIAAAAAQAgAAAAAAAAAAAAAQgAAA=</HashCode>
+      <FileName>Employee.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="DirectReports" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

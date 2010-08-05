@@ -1,0 +1,61 @@
+﻿<Window 
+    x:Class="Observal.Demo.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Dunder Mifflin Employee Organization Chart" Height="600" Width="700"
+    Icon="/Properties/Icon.ico" TextOptions.TextFormattingMode="Display"
+    >
+    <Grid Background="#f0f0f0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="Organization Chart" Margin="7" Grid.RowSpan="2">
+            <DockPanel Margin="7">
+                <Button DockPanel.Dock="Top" Content="Add" Command="{Binding Path=AddChild}" CommandParameter="{Binding ElementName=_employeeTree, Path=SelectedItem}" Margin="0,0,0,7" />
+                <TreeView ItemsSource="{Binding Path=RootEmployees}" x:Name="_employeeTree">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Path=DirectReports}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=Name}" Margin="3" />
+                                <TextBlock Text="{Binding Path=Salary, StringFormat='{}{0:c}'}" Foreground="Gray" Margin="3" />
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </DockPanel>
+        </GroupBox>
+
+        <GroupBox Header="Details" Grid.Column="1" Margin="7" Grid.Row="0">
+            <StackPanel Margin="7" DataContext="{Binding ElementName=_employeeTree, Path=SelectedItem}">
+                <Label Content="Name:" />
+                <TextBox Text="{Binding Path=Name}" />
+                <Label Content="Salary:" />
+                <TextBox Text="{Binding Path=Salary, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Employees with salary &lt; $100,000" Margin="7" Grid.Column="1" Grid.Row="1">
+            <ListBox ItemsSource="{Binding Path=FilteredEmployees}" Margin="7">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0" Content="{Binding Path=Name}" />
+                            <Label Grid.Column="1" Content="{Binding Path=Salary, StringFormat='{}{0:c}'}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+    </Grid>
+</Window>

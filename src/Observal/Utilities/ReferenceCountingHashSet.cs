@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Observal.Utilities
 {
-    internal class ReferenceCountingHashSet
+    public class ReferenceCountingHashSet
     {
         private readonly Dictionary<Tuple<Type, int>, Reference> _items = new Dictionary<Tuple<Type, int>, Reference>();
         private readonly object _lock = new object();

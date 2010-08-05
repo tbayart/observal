@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="lib\MSBuild.Community.Tasks.Targets" />
+  <Import Project="lib\MSBuild.Deployment.Tasks.Targets" />
+
+  <PropertyGroup>
+    <Root>$(MSBuildStartupDirectory)</Root>
+    <nunitconsoleexe>$(Root)\lib\NUnit\exe\nunit-console-x86.exe</nunitconsoleexe>
+  </PropertyGroup>
+
+  <Target Name="Package">
+
+    <!-- Diagnostics -->
+    <Message Text="Diagnostics:"/>
+    <Message Text="Build Number:    $(build_number)" />
+    <Message Text="Version number:  $(build_version)" />
+    <Message Text="Version tag:     $(build_versiontag)" />
+    <Message Text="Build dir:       $(MSBuildProjectDirectory)" />
+    <Message Text="Project root:    $(Root)" />
+    <Message Text="NUnit Console:   $(nunitconsoleexe)" />
+
+    <!-- Clean up -->
+    <ItemGroup>
+      <FilesToDelete Include="$(Root)\src\**\bin\**\*.*" />
+      <FilesToDelete Include="$(Root)\src\**\obj\**\*.*" />
+      <FilesToDelete Include="$(Root)\build\Artifacts\**\*.*" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" ContinueOnError="true" />
+
+    <!-- Ensure directories exists -->
+    <MakeDir Directories="$(MSBuildProjectDirectory)\Artifacts" Condition="!Exists('$(MSBuildProjectDirectory)\Artifacts')" />
+    <MakeDir Directories="$(MSBuildProjectDirectory)\Artifacts\Binaries" Condition="!Exists('$(MSBuildProjectDirectory)\Artifacts\Binaries')" />
+
+    <!-- Version Info -->
+    <!--<AssemblyInfo
+      CodeLanguage="CS"
+      OutputFile="$(Root)\src\Observal\Properties\VersionInfo.cs"
+      AssemblyVersion="$(build_version)"
+      AssemblyFileVersion="$(build_number)"
+      />-->
+
+    <!-- Zip source -->
+    <ItemGroup>
+      <SourceFilesToZip Include="$(Root)\src\**\*.*" Exclude="**\*ReSharp*\**\*" />
+      <SourceFilesToZip Include="$(Root)\lib\**\*.dll" Exclude="$(Root)\lib\NUnit\Exe\**\*.*" />
+    </ItemGroup>
+    <Zip Files="@(SourceFilesToZip)"
+      WorkingDirectory="$(Root)"
+      ZipFileName="$(MSBuildProjectDirectory)\Artifacts\Binaries\Observal-$(build_version)$(build_versiontag)-source.zip"
+      ZipLevel="10"
+      />
+
+    <!-- Compile -->
+    <ItemGroup>
+      <ProjectToBuild Include="$(Root)\src\Observal.sln" />
+    </ItemGroup>
+    <MSBuild Projects="@(ProjectToBuild)" Targets="Build" Properties="Configuration=Release">
+      <Output TaskParameter="TargetOutputs" ItemName="AssembliesBuiltByChildProjects" />
+    </MSBuild>
+
+    <!-- Zip binaries (.NET 4.0) -->
+    <ItemGroup>
+      <BinaryFiles Include="$(Root)\src\Observal\bin\Release\*.*" />
+    </ItemGroup>
+    <ItemGroup>
+      <InfoFiles Include="$(Root)\license.txt" />
+    </ItemGroup>
+    <Copy SourceFiles="@(BinaryFiles)" DestinationFolder="$(MSBuildProjectDirectory)\Artifacts\Q\NET40\Assemblies" />
+    <Copy SourceFiles="@(InfoFiles)" DestinationFolder="$(MSBuildProjectDirectory)\Artifacts\Q\NET40" />
+    <ItemGroup>
+      <BinaryFilesToZip Include="$(MSBuildProjectDirectory)\Artifacts\Q\NET40\**\*.*" />
+    </ItemGroup>
+    <Zip Files="@(BinaryFilesToZip)"
+      WorkingDirectory="$(MSBuildProjectDirectory)\Artifacts\Q\NET40"
+      ZipFileName="$(MSBuildProjectDirectory)\Artifacts\Binaries\Observal-$(build_version)$(build_versiontag)-NET40.zip"
+      ZipLevel="10"
+      />
+    
+    <!-- Test -->
+    <ItemGroup>
+      <TestAssemblies Include="$(Root)\src\Observal.Tests\bin\Release\Observal.Tests.dll"/>
+    </ItemGroup>
+    <Exec Condition="$(teamcity_dotnet_nunitlauncher) != ''" Command="$(teamcity_dotnet_nunitlauncher) v4.0 x86 NUnit-2.5.0 @(TestAssemblies)" />
+    <Exec Condition="$(teamcity_dotnet_nunitlauncher) == ''" Command="$(nunitconsoleexe) @(TestAssemblies)" />
+
+  </Target>
+</Project>
