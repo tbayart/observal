@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Observal.Extensions;
 using NUnit.Framework;
@@ -53,6 +54,74 @@ namespace Observal.Tests.Extensions
             Assert.AreEqual(2, properties.Count);
             Assert.AreEqual("FirstName", properties[0]);
             Assert.AreEqual("LastName", properties[1]);
+        }
+
+        [Test]
+        public void CanGetOriginalSourceFromNotification()
+        {
+            var customer = new Customer();
+
+            var observer = new Observer();
+            observer.Extend(new PropertyChangedExtension()).WhenPropertyChanges(x => Assert.AreEqual(x.Source, customer));
+            observer.Add(customer);
+
+            customer.FirstName = "Paul";
+        }
+
+        [Test]
+        public void DoesNotCrashWhenNoHandlers()
+        {
+            var customer = new Customer();
+
+            var observer = new Observer();
+            observer.Extend(new PropertyChangedExtension());
+            observer.Add(customer);
+
+            customer.FirstName = "Paul";
+        }
+
+        [Test]
+        public void WeakEventsEnableGarabageCollection()
+        {
+            var customer = new Customer();
+
+            var observerReference = null as WeakReference;
+            new Action(() =>
+            {
+                var observer = new Observer();
+                observer.Extend(new PropertyChangedExtension()).UseWeakEvents();
+                observer.Add(customer);
+                customer.FirstName = "Paul";
+                observerReference = new WeakReference(observer);
+            })();
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+
+            Assert.IsNull(observerReference.Target);
+        }
+
+        [Test]
+        public void WeakEventsDisabledByDefault()
+        {
+            var customer = new Customer();
+
+            var observerReference = null as WeakReference;
+            new Action(() =>
+            {
+                var observer = new Observer();
+                observer.Extend(new PropertyChangedExtension());
+                observer.Add(customer);
+                customer.FirstName = "Paul";
+                observerReference = new WeakReference(observer);
+            })();
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+
+            Assert.IsNotNull(observerReference.Target);
         }
 
         [Test]

@@ -43,10 +43,7 @@ namespace Observal.Extensions
         /// <returns>This instance, for fluent interfaces.</returns>
         public PropertyChangedExtension WhenPropertyChanges(Action<PropertyChangeNotification> callback)
         {
-            Guard.ArgumentNotNull(callback, "callback");
-            AssertNotConfiguredYet("Cannot add property change handlers as this extension has already been configured.");
-            _subscribers.Add(callback);
-            return this;
+            return WhenPropertyChanges<object>(x => callback(new PropertyChangeNotification(x.Source, x.PropertyName)));
         }
 
         /// <summary>
@@ -100,7 +97,8 @@ namespace Observal.Extensions
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var callbacks = _subscribers.ToArray();
-            if (callbacks.Length == 0) return;
+            if (callbacks.Length == 0) 
+                return;
 
             var notification = new PropertyChangeNotification(sender, e.PropertyName);
             foreach (var item in callbacks)
