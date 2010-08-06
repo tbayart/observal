@@ -39,7 +39,7 @@ namespace Observal
         /// Adds an extension.
         /// </summary>
         /// <param name="extension">The extension.</param>
-        public TExtension AddExtension<TExtension>(TExtension extension) where TExtension : IObserverExtension
+        public TExtension Extend<TExtension>(TExtension extension) where TExtension : IObserverExtension
         {
             lock (_lock)
             {

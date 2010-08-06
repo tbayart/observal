@@ -31,7 +31,7 @@ namespace Observal.Tests
         {
             var counter = new CountItemsExtension();
             var observer = new Observer();
-            observer.AddExtension(counter);
+            observer.Extend(counter);
 
             observer.Add("Item 1");
             observer.Add("Item 2");
@@ -47,7 +47,7 @@ namespace Observal.Tests
             
             observer.Add("Item 1");
             
-            Assert.Throws<InvalidOperationException>(() => observer.AddExtension(counter));
+            Assert.Throws<InvalidOperationException>(() => observer.Extend(counter));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace Observal.Tests
         {
             var counter = new CountItemsExtension();
             var observer = new Observer();
-            observer.AddExtension(counter);
+            observer.Extend(counter);
 
             observer.Add("Item 1");
             observer.Add("Item 2");
@@ -72,7 +72,7 @@ namespace Observal.Tests
         {
             var counter = new CountItemsExtension();
             var observer = new Observer();
-            observer.AddExtension(counter);
+            observer.Extend(counter);
 
             observer.Add("Item 1");
             observer.Add("Item 2");
@@ -86,7 +86,7 @@ namespace Observal.Tests
         {
             var counter = new CountItemsExtension();
             var observer = new Observer();
-            observer.AddExtension(counter);
+            observer.Extend(counter);
 
             observer.Release("Item 42");
 
@@ -98,9 +98,9 @@ namespace Observal.Tests
         {
             var counter = new CountItemsExtension();
             var observer = new Observer();
-            observer.AddExtension(counter);
+            observer.Extend(counter);
 
-            observer.AddExtension(new NaughtyExtension());
+            observer.Extend(new NaughtyExtension());
             Assert.Throws<InvalidOperationException>(() => observer.Add("Jack"));
         }
 
@@ -128,7 +128,7 @@ namespace Observal.Tests
         {
             var counter = new CountItemsExtension();
             var observer = new Observer();
-            observer.AddExtension(counter);
+            observer.Extend(counter);
 
             Assert.IsTrue(observer.HasExtension(x => x is CountItemsExtension));
             Assert.IsFalse(observer.HasExtension(x => x is NaughtyExtension));

@@ -13,14 +13,6 @@ namespace Observal.Extensions
             return this;
         }
 
-        protected override void Configure(Observer observer)
-        {
-            if (observer.HasExtension(x => x is CollectionExpansionExtension))
-                return;
-
-            observer.AddExtension(new CollectionExpansionExtension());
-        }
-
         protected override void Attach(Observer observer, object attachedItem)
         {
             foreach (var reader in _childrenReaders)

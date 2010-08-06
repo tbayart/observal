@@ -44,7 +44,7 @@ namespace Observal.Tests.Extensions
             var properties = new List<string>();
             
             var observer = new Observer();
-            observer.AddExtension(new PropertyChangedExtension()).WhenPropertyChanges(x => properties.Add(x.PropertyName));
+            observer.Extend(new PropertyChangedExtension()).WhenPropertyChanges(x => properties.Add(x.PropertyName));
             observer.Add(customer);
 
             customer.FirstName = "Paul";
@@ -63,7 +63,7 @@ namespace Observal.Tests.Extensions
             var properties = new List<string>();
             
             var observer = new Observer();
-            observer.AddExtension(new PropertyChangedExtension()).WhenPropertyChanges(x => properties.Add(x.PropertyName));
+            observer.Extend(new PropertyChangedExtension()).WhenPropertyChanges(x => properties.Add(x.PropertyName));
             
             observer.Add(customer);
 
@@ -87,7 +87,7 @@ namespace Observal.Tests.Extensions
         public void IgnoresNonINPCItems()
         {
             var observer = new Observer();
-            observer.AddExtension(new PropertyChangedExtension());
+            observer.Extend(new PropertyChangedExtension());
             observer.Add("Item 1");
             observer.Release("Item 1");
         }

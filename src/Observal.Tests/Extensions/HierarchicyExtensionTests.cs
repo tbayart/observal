@@ -49,7 +49,8 @@ namespace Observal.Tests.Extensions
                     new Employee("Alice")));
 
             var observer = new Observer();
-            observer.AddExtension(new HierarchyExtension()
+            observer.Extend(new CollectionExpansionExtension());
+            observer.Extend(new HierarchyExtension()
                 .AddChildren<Employee>(x => x.DirectReports));
             
             observer.Add(boss);
@@ -68,7 +69,8 @@ namespace Observal.Tests.Extensions
                     new Employee("Alice")));
 
             var observer = new Observer();
-            observer.AddExtension(new HierarchyExtension()
+            observer.Extend(new CollectionExpansionExtension());
+            observer.Extend(new HierarchyExtension()
                 .AddChildren<Employee>(x => x.DirectReports));
 
             observer.Add(boss);
@@ -96,7 +98,8 @@ namespace Observal.Tests.Extensions
             dilbert.Friends.Add(wally);
 
             var observer = new Observer();
-            observer.AddExtension(new HierarchyExtension()
+            observer.Extend(new CollectionExpansionExtension());
+            observer.Extend(new HierarchyExtension()
                 .AddChildren<Employee>(x => x.DirectReports)
                 .AddChildren<Employee>(x => x.Friends));
 
@@ -116,24 +119,11 @@ namespace Observal.Tests.Extensions
         }
 
         [Test]
-        public void AddsDependencyOnCollectionExpansionExtension()
-        {
-            var observer = new Observer();
-            
-            Assert.IsFalse(observer.HasExtension(x => x is CollectionExpansionExtension));
-            
-            observer.AddExtension(new HierarchyExtension());
-            observer.Add("x");
-
-            Assert.IsTrue(observer.HasExtension(x => x is CollectionExpansionExtension));
-        }
-
-        [Test]
         public void DoesNotAddCollectionExpansionExtensionIfAlreadyExists()
         {
             var observer = new Observer();
-            observer.AddExtension(new CollectionExpansionExtension());
-            observer.AddExtension(new HierarchyExtension());
+            observer.Extend(new CollectionExpansionExtension());
+            observer.Extend(new HierarchyExtension());
             observer.Add(3);
         }
     }

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows.Input;
 using Observal.Extensions;
 
@@ -14,7 +12,7 @@ namespace Observal.Demo
         
         public OrgChartViewModel(IEnumerable<Employee> employees)
         {
-            AddChild = new RelayCommand<Employee>(AddChildExecuted);
+            AddChild = new RelayCommand<Employee>(AddChildExecuted, x => x != null);
 
             foreach (var item in employees)
             {
@@ -22,9 +20,10 @@ namespace Observal.Demo
             }
 
             var observer = new Observer();
-            observer.AddExtension(new HierarchyExtension()).AddChildren<Employee>(e => e.DirectReports);
-            observer.AddExtension(new PropertyChangedExtension()).WhenPropertyChanges(x => FilterEmployee(x.Source));
-            observer.AddExtension(new ItemsChangedExtension()).WhenAdded(FilterEmployee);
+            observer.Extend(new HierarchyExtension()).AddChildren<Employee>(e => e.DirectReports);
+            observer.Extend(new CollectionExpansionExtension());
+            observer.Extend(new PropertyChangedExtension()).WhenPropertyChanges(x => FilterEmployee(x.Source));
+            observer.Extend(new ItemsChangedExtension()).WhenAdded(FilterEmployee);
             observer.Add(_rootEmployees);
         }
 

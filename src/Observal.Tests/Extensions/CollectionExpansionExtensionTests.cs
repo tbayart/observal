@@ -12,7 +12,7 @@ namespace Observal.Tests.Extensions
         public void AutoExpandsObservableCollections()
         {
             var observer = new Observer();
-            observer.AddExtension(new CollectionExpansionExtension());
+            observer.Extend(new CollectionExpansionExtension());
 
             var observable = new ObservableCollection<object>();
             observable.Add("Item 1");
