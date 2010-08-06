@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="Extensions\CollectionExpansionExtension.cs" />
     <Compile Include="Extensions\TraverseExtension.cs" />
-    <Compile Include="Extensions\ItemEventArgs.cs" />
     <Compile Include="Extensions\ItemsChangedExtension.cs" />
     <Compile Include="Extensions\ObserverExtension.cs" />
     <Compile Include="Extensions\PropertyChangedExtension.cs" />
