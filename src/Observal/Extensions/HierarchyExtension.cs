@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Observal.Extensions
 {
-    public class HierarchyExtension : IObserverExtension
+    public class HierarchyExtension : ObserverExtension
     {
         private readonly List<Tuple<Type, Func<object, object>>> _childrenReaders = new List<Tuple<Type, Func<object, object>>>();
 
@@ -13,7 +13,7 @@ namespace Observal.Extensions
             return this;
         }
 
-        public void Configure(Observer observer)
+        protected override void Configure(Observer observer)
         {
             if (observer.HasExtension(x => x is CollectionExpansionExtension))
                 return;
@@ -21,7 +21,7 @@ namespace Observal.Extensions
             observer.AddExtension(new CollectionExpansionExtension());
         }
 
-        public void Attach(Observer observer, object attachedItem)
+        protected override void Attach(Observer observer, object attachedItem)
         {
             foreach (var reader in _childrenReaders)
             {
@@ -39,7 +39,7 @@ namespace Observal.Extensions
             }
         }
 
-        public void Detach(Observer observer, object detachedItem)
+        protected override void Detach(Observer observer, object detachedItem)
         {
             foreach (var reader in _childrenReaders)
             {

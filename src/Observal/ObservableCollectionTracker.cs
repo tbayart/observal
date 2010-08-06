@@ -16,11 +16,19 @@ namespace Observal
         private INotifyCollectionChanged _source;
         private IEnumerable<object> _sourceEnumerable;
         private readonly object _lock = new object();
+        private readonly NotifyCollectionChangedEventHandler _handler;
 
-        public ObservableCollectionTracker(Action<object> itemAdded, Action<object> itemRemoved)
+        public ObservableCollectionTracker(Action<object> itemAdded, Action<object> itemRemoved) : this(itemAdded, itemRemoved, false)
+        {
+        }
+
+        public ObservableCollectionTracker(Action<object> itemAdded, Action<object> itemRemoved, bool useWeakEvents)
         {
             _itemAdded = itemAdded ?? (x => { });
             _itemRemoved = itemRemoved ?? (x => { });
+            
+            if (useWeakEvents) _handler = new WeakEventHandler<NotifyCollectionChangedEventArgs>(CollectionChanged).WeakHandler;
+            else _handler = CollectionChanged;
         }
 
         public void Attach(INotifyCollectionChanged collection)
@@ -37,7 +45,7 @@ namespace Observal
 
                 _source = collection;
                 _sourceEnumerable = ((IEnumerable) _source).Cast<object>();
-                _source.CollectionChanged += new WeakEventHandler<NotifyCollectionChangedEventArgs>(CollectionChanged).WeakHandler;
+                _source.CollectionChanged += _handler;
             }
 
             var items = _sourceEnumerable.ToList();
@@ -50,6 +58,18 @@ namespace Observal
             foreach (var item in itemsAdded)
             {
                 _itemAdded(item);
+            }
+        }
+
+        public void Detach()
+        {
+            lock (_lock)
+            {
+                if (_source == null) 
+                    return;
+
+                _source.CollectionChanged -= _handler;
+                _source = null;
             }
         }
 

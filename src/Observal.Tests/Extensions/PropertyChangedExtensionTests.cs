@@ -42,12 +42,9 @@ namespace Observal.Tests.Extensions
             var customer = new Customer();
 
             var properties = new List<string>();
-            var extension = new PropertyChangedExtension();
-            extension.PropertyChanged += (x, y) => properties.Add(y.PropertyName);
-
+            
             var observer = new Observer();
-            observer.AddExtension(extension);
-
+            observer.AddExtension(new PropertyChangedExtension()).WhenPropertyChanges(x => properties.Add(x.PropertyName));
             observer.Add(customer);
 
             customer.FirstName = "Paul";
@@ -64,12 +61,10 @@ namespace Observal.Tests.Extensions
             var customer = new Customer();
 
             var properties = new List<string>();
-            var extension = new PropertyChangedExtension();
-            extension.PropertyChanged += (x, y) => properties.Add(y.PropertyName);
-
+            
             var observer = new Observer();
-            observer.AddExtension(extension);
-
+            observer.AddExtension(new PropertyChangedExtension()).WhenPropertyChanges(x => properties.Add(x.PropertyName));
+            
             observer.Add(customer);
 
             observer.Add(customer);

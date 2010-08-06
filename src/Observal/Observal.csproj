@@ -51,7 +51,9 @@
     <Compile Include="Extensions\HierarchyExtension.cs" />
     <Compile Include="Extensions\ItemEventArgs.cs" />
     <Compile Include="Extensions\ItemsChangedExtension.cs" />
+    <Compile Include="Extensions\ObserverExtension.cs" />
     <Compile Include="Extensions\PropertyChangedExtension.cs" />
+    <Compile Include="Extensions\PropertyChangeNotification.cs" />
     <Compile Include="ObservableCollectionTracker.cs" />
     <Compile Include="IObserverExtension.cs" />
     <Compile Include="Observer.cs" />

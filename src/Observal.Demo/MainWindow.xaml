@@ -24,6 +24,7 @@
         <GroupBox Header="Organization Chart" Margin="7" Grid.RowSpan="2">
             <DockPanel Margin="7">
                 <Button DockPanel.Dock="Top" Content="Add" Command="{Binding Path=AddChild}" CommandParameter="{Binding ElementName=_employeeTree, Path=SelectedItem}" Margin="0,0,0,7" />
+
                 <TreeView ItemsSource="{Binding Path=RootEmployees}" x:Name="_employeeTree">
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding Path=DirectReports}">
@@ -39,8 +40,17 @@
 
         <GroupBox Header="Details" Grid.Column="1" Margin="7" Grid.Row="0">
             <StackPanel Margin="7" DataContext="{Binding ElementName=_employeeTree, Path=SelectedItem}">
+                <StackPanel.Style>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Style.Triggers>
+                            <Trigger Property="DataContext" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
                 <Label Content="Name:" />
-                <TextBox Text="{Binding Path=Name}" />
+                <TextBox Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" />
                 <Label Content="Salary:" />
                 <TextBox Text="{Binding Path=Salary, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>

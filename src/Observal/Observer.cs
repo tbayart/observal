@@ -39,7 +39,7 @@ namespace Observal
         /// Adds an extension.
         /// </summary>
         /// <param name="extension">The extension.</param>
-        public void AddExtension(IObserverExtension extension)
+        public TExtension AddExtension<TExtension>(TExtension extension) where TExtension : IObserverExtension
         {
             lock (_lock)
             {
@@ -49,6 +49,7 @@ namespace Observal
                 }
                 _extensions.Add(extension);
             }
+            return extension;
         }
 
         /// <summary>

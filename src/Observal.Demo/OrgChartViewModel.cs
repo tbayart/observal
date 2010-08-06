@@ -11,8 +11,7 @@ namespace Observal.Demo
     {
         private readonly ObservableCollection<Employee> _rootEmployees = new ObservableCollection<Employee>();
         private readonly ObservableCollection<Employee> _filteredEmployees = new ObservableCollection<Employee>();
-        private readonly Observer _observer;
-
+        
         public OrgChartViewModel(IEnumerable<Employee> employees)
         {
             AddChild = new RelayCommand<Employee>(AddChildExecuted);
@@ -22,18 +21,11 @@ namespace Observal.Demo
                 _rootEmployees.Add(item);
             }
 
-            var propertyWatcher = new PropertyChangedExtension();
-            propertyWatcher.PropertyChanged += (s, e) => FilterEmployee(s);
-
-            var addRemove = new ItemsChangedExtension();
-            addRemove.ItemAdded += (s, e) => FilterEmployee(e.Item);
-            addRemove.ItemRemoved += (s, e) => FilterEmployee(e.Item);
-
-            _observer = new Observer();
-            _observer.AddExtension(new HierarchyExtension().AddChildren<Employee>(e => e.DirectReports));
-            _observer.AddExtension(propertyWatcher);
-            _observer.AddExtension(addRemove);
-            _observer.Add(_rootEmployees);
+            var observer = new Observer();
+            observer.AddExtension(new HierarchyExtension()).AddChildren<Employee>(e => e.DirectReports);
+            observer.AddExtension(new PropertyChangedExtension()).WhenPropertyChanges(x => FilterEmployee(x.Source));
+            observer.AddExtension(new ItemsChangedExtension()).WhenAdded(FilterEmployee);
+            observer.Add(_rootEmployees);
         }
 
         private void FilterEmployee(object item)
