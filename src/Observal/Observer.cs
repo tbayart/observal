@@ -8,9 +8,9 @@ using Observal.Utilities;
 namespace Observal
 {
     /// <summary>
-    /// The core Observal kernel, which monitors objects for changes. You can add capabilities to this observer using 
-    /// extensions, such as the <see cref="PropertyChangedExtension"/> for monitoring property changed events, or 
-    /// the <see cref="HierarchyExtension"/> for expanding items into child items.
+    /// The core Observal kernel, which monitors objects for changes. You can add capabilities to this 
+    /// observer using extensions, such as the <see cref="PropertyChangedExtension"/> for monitoring property 
+    /// changed events, or the <see cref="TraverseExtension"/> for expanding items into child items.
     /// </summary>
     public class Observer
     {
@@ -53,8 +53,9 @@ namespace Observal
         }
 
         /// <summary>
-        /// Adds an item to the list of objects observed by this observer. If the item is already being observed, 
-        /// the reference count will be incremented. When released, the reference count is decremented until 0.
+        /// Adds an item to the list of objects observed by this observer. If the item is already being 
+        /// observed, the reference count will be incremented. When released, the reference count is 
+        /// decremented until 0.
         /// </summary>
         /// <param name="item">The item.</param>
         public void Add(object item)
@@ -73,7 +74,7 @@ namespace Observal
 
             foreach (var extension in extensions)
             {
-                extension.Attach(this, item);
+                extension.Attach(item);
             }
         }
 
@@ -109,8 +110,9 @@ namespace Observal
         }
 
         /// <summary>
-        /// Removes an item from the collection, by decrementing the reference count. When the reference count 
-        /// reaches zero, the item will be removed from the collection and should be garbage collectable.
+        /// Removes an item from the collection, by decrementing the reference count. When the reference 
+        /// count reaches zero, the item will be removed from the collection and should be garbage 
+        /// collectable.
         /// </summary>
         /// <param name="item">The item.</param>
         public void Release(object item)
@@ -129,7 +131,7 @@ namespace Observal
 
             foreach (var extension in extensions)
             {
-                extension.Detach(this, item);
+                extension.Detach(item);
             }
         }
 

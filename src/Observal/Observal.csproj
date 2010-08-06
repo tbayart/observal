@@ -34,7 +34,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Observal.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Properties\Observal.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\CollectionExpansionExtension.cs" />
-    <Compile Include="Extensions\HierarchyExtension.cs" />
+    <Compile Include="Extensions\TraverseExtension.cs" />
     <Compile Include="Extensions\ItemEventArgs.cs" />
     <Compile Include="Extensions\ItemsChangedExtension.cs" />
     <Compile Include="Extensions\ObserverExtension.cs" />
@@ -63,7 +63,7 @@
     <Compile Include="Utilities\ReferenceCountingHashSet.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Observal.snk" />
+    <None Include="Properties\Observal.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

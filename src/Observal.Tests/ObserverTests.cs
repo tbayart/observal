@@ -15,12 +15,12 @@ namespace Observal.Tests
                 
             }
 
-            public void Attach(Observer observer, object attachedItem)
+            public void Attach(object attachedItem)
             {
                 ItemCount++;
             }
 
-            public void Detach(Observer observer, object detachedItem)
+            public void Detach(object detachedItem)
             {
                 ItemCount--;
             }
@@ -142,11 +142,11 @@ namespace Observal.Tests
             observer.Add("Foo");
         }
 
-        public void Attach(Observer observer, object attachedItem)
+        public void Attach(object attachedItem)
         {
         }
 
-        public void Detach(Observer observer, object detachedItem)
+        public void Detach(object detachedItem)
         {
         }
     }

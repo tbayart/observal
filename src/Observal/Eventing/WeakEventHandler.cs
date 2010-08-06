@@ -5,14 +5,14 @@ using System.Reflection;
 namespace Observal.Eventing
 {
     /// <summary>
-    /// Wraps an event handler with a weak reference, allowing the subscriber to be garbage 
-    /// collected without being kept alive by the publisher of the event. 
+    /// Wraps an event handler with a weak reference, allowing the subscriber to be garbage collected without 
+    /// being kept alive by the publisher of the event. 
     /// </summary>
     /// <typeparam name="TEventArgs">The type of the event args.</typeparam>
     /// <remarks>
     /// Usage example:
     /// <code>
-    ///     Alarm.Beep += new WeakEventHandler
+    ///     Alarm.Beep += new WeakEventHandler&lt;FooEventArgs&gt;(FooHappened).WeakHandler;
     /// </code>
     /// </remarks>
     [DebuggerNonUserCode]

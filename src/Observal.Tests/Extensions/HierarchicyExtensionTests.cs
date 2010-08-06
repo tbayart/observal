@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace Observal.Tests.Extensions
 {
     [TestFixture]
-    public class HierarchicyExtensionTests
+    public class TraverseExtensionTests
     {
         [DebuggerDisplay("Employee: {Name}")]
         public class Employee
@@ -50,8 +50,8 @@ namespace Observal.Tests.Extensions
 
             var observer = new Observer();
             observer.Extend(new CollectionExpansionExtension());
-            observer.Extend(new HierarchyExtension()
-                .AddChildren<Employee>(x => x.DirectReports));
+            observer.Extend(new TraverseExtension()
+                .Follow<Employee>(x => x.DirectReports));
             
             observer.Add(boss);
 
@@ -70,8 +70,8 @@ namespace Observal.Tests.Extensions
 
             var observer = new Observer();
             observer.Extend(new CollectionExpansionExtension());
-            observer.Extend(new HierarchyExtension()
-                .AddChildren<Employee>(x => x.DirectReports));
+            observer.Extend(new TraverseExtension()
+                .Follow<Employee>(x => x.DirectReports));
 
             observer.Add(boss);
 
@@ -99,9 +99,9 @@ namespace Observal.Tests.Extensions
 
             var observer = new Observer();
             observer.Extend(new CollectionExpansionExtension());
-            observer.Extend(new HierarchyExtension()
-                .AddChildren<Employee>(x => x.DirectReports)
-                .AddChildren<Employee>(x => x.Friends));
+            observer.Extend(new TraverseExtension()
+                .Follow<Employee>(x => x.DirectReports)
+                .Follow<Employee>(x => x.Friends));
 
             observer.Add(boss);
 
@@ -123,7 +123,7 @@ namespace Observal.Tests.Extensions
         {
             var observer = new Observer();
             observer.Extend(new CollectionExpansionExtension());
-            observer.Extend(new HierarchyExtension());
+            observer.Extend(new TraverseExtension());
             observer.Add(3);
         }
     }

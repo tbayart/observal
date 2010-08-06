@@ -1,34 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace Observal.Extensions
 {
+    /// <summary>
+    /// When collections that implement <see cref="INotifyCollectionChanged"/> are added to the observer, 
+    /// this extension will expand the collection and add all items to the observer. 
+    /// </summary>
+    /// <remarks>
+    /// Works by using the <see cref="ObservableCollectionTracker"/> to do the dirty work of managing the 
+    /// collection changed events.
+    /// </remarks>
     public class CollectionExpansionExtension : ObserverExtension
     {
         private readonly Dictionary<object, ObservableCollectionTracker> _caches = new Dictionary<object, ObservableCollectionTracker>();
 
-        protected override void Attach(Observer observer, object attachedItem)
+        /// <summary>
+        /// Notifies this extension that an item has been added to the current observer.
+        /// </summary>
+        /// <param name="attachedItem">The attached item that was just added to the observer.</param>
+        /// <remarks>
+        /// This method is guaranteed to only be called once per item (unless the item is added, removed,
+        /// and added again).
+        /// </remarks>
+        protected override void Attach(object attachedItem)
         {
-            var enumerable = attachedItem as IEnumerable;
-            if (enumerable == null)
-                return;
-
             var notifiable = attachedItem as INotifyCollectionChanged;
             if (notifiable == null)
                 return;
 
-            var cache = new ObservableCollectionTracker(observer.Add, observer.Release);
+            var cache = new ObservableCollectionTracker(Observer.Add, Observer.Release);
             cache.Attach(notifiable);
             _caches.Add(attachedItem, cache);
         }
 
-        protected override void Detach(Observer observer, object detachedItem)
+        /// <summary>
+        /// Notifies this extension that an item has been removed from the current observer.
+        /// </summary>
+        /// <param name="detachedItem">The detached item that was just removed from the observer.</param>
+        protected override void Detach(object detachedItem)
         {
-            var enumerable = detachedItem as IEnumerable;
-            if (enumerable == null)
-                return;
-
             if (!_caches.ContainsKey(detachedItem)) 
                 return;
             
@@ -37,7 +48,7 @@ namespace Observal.Extensions
             _caches.Remove(detachedItem);
             foreach (var item in cache.Items)
             {
-                observer.Release(item);
+                Observer.Release(item);
             }
         }
     }

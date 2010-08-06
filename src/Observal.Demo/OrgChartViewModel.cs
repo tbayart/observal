@@ -20,7 +20,7 @@ namespace Observal.Demo
             }
 
             var observer = new Observer();
-            observer.Extend(new HierarchyExtension()).AddChildren<Employee>(e => e.DirectReports);
+            observer.Extend(new TraverseExtension()).Follow<Employee>(e => e.DirectReports);
             observer.Extend(new CollectionExpansionExtension());
             observer.Extend(new PropertyChangedExtension()).WhenPropertyChanges(x => FilterEmployee(x.Source));
             observer.Extend(new ItemsChangedExtension()).WhenAdded(FilterEmployee);
