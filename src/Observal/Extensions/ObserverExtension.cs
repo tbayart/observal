@@ -45,17 +45,13 @@ namespace Observal.Extensions
         /// This method is guaranteed to only be called once per item (unless the item is added, removed,
         /// and added again).
         /// </remarks>
-        protected virtual void Attach(object attachedItem)
-        {
-        }
+        protected abstract void Attach(object attachedItem);
 
         /// <summary>
         /// Notifies this extension that an item has been removed from the current observer.
         /// </summary>
         /// <param name="detachedItem">The detached item that was just removed from the observer.</param>
-        protected virtual void Detach(object detachedItem)
-        {
-        }
+        protected abstract void Detach(object detachedItem);
 
         void IObserverExtension.Configure(Observer observer)
         {
