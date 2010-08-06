@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Observal.Demo
+namespace Observal.Demo.Views
 {
     /// <summary>
     /// An <see cref="ICommand"/> that invokes a delegate on execution.

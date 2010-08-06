@@ -1,13 +1,10 @@
 ﻿using System.Windows;
 
-namespace Observal.Demo
+namespace Observal.Demo.Views
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public partial class OrgChartWindow : Window
     {
-        public MainWindow()
+        public OrgChartWindow()
         {
             InitializeComponent();
 

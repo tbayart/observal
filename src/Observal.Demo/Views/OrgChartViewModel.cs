@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Observal.Extensions;
 
-namespace Observal.Demo
+namespace Observal.Demo.Views
 {
     public class OrgChartViewModel
     {
