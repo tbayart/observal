@@ -124,8 +124,10 @@ namespace Observal
                             _items.Add(item);
                         }
                         break;
+#if !SILVERLIGHT
                     case NotifyCollectionChangedAction.Move:
                         break;
+#endif
                     case NotifyCollectionChangedAction.Reset:
                         var cache = _items.ToList();
                         var current = _sourceEnumerable.ToList();
