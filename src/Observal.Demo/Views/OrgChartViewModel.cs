@@ -22,17 +22,15 @@ namespace Observal.Demo.Views
             var observer = new Observer();
             observer.Extend(new TraverseExtension()).Follow<Employee>(e => e.DirectReports);
             observer.Extend(new CollectionExpansionExtension());
-            observer.Extend(new PropertyChangedExtension()).WhenPropertyChanges(x => FilterEmployee(x.Source));
-            observer.Extend(new ItemsChangedExtension()).WhenAdded(FilterEmployee);
+            observer.Extend(new PropertyChangedExtension()).WhenPropertyChanges<Employee>(x => FilterEmployee(x.Source));
+            observer.Extend(new ItemsChangedExtension()).WhenAdded<Employee>(FilterEmployee);
             observer.Add(_rootEmployees);
         }
 
-        private void FilterEmployee(object item)
-        {
-            var employee = item as Employee;
-            if (employee == null)
-                return;
+        public ICommand AddChild { get; set; }
 
+        private void FilterEmployee(Employee employee)
+        {
             if (employee.Salary < 100000)
             {
                 if (!FilteredEmployees.Contains(employee))
@@ -43,8 +41,6 @@ namespace Observal.Demo.Views
                 FilteredEmployees.Remove(employee);
             }
         }
-
-        public ICommand AddChild { get; set; }
 
         public ObservableCollection<Employee> RootEmployees
         {
@@ -64,7 +60,5 @@ namespace Observal.Demo.Views
             var child = new Employee("New Employee", 0.0M);
             selectedItem.DirectReports.Add(child);
         }
-
-        public System.ComponentModel.PropertyChangedEventHandler PropertyWatcher_PropertyChanged { get; set; }
     }
 }

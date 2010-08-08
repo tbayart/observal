@@ -6,15 +6,16 @@
       <Field Name="_employees" Hidden="true" />
       <Field Name="_name" Hidden="true" />
       <Field Name="_salary" Hidden="true" />
+      <Method Name="Employee" Hidden="true" />
       <Method Name="OnPropertyChanged" Hidden="true" />
       <Event Name="PropertyChanged" Hidden="true" />
     </Members>
     <AssociationLine Name="DirectReports" Type="Observal.Demo.Employee" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="6.5" Y="3.764" />
-        <Point X="6.75" Y="3.764" />
-        <Point X="6.75" Y="3.09" />
-        <Point X="6.5" Y="3.09" />
+        <Point X="6.5" Y="3.437" />
+        <Point X="6.75" Y="3.437" />
+        <Point X="6.75" Y="2.937" />
+        <Point X="6.5" Y="2.937" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
         <Position X="0.372" Y="-0.307" Height="0.182" Width="3.505" />
@@ -22,7 +23,7 @@
     </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAICAAAAAAAAAAIAAAAAQAgAAAAAAAAAAAAAQgAAA=</HashCode>
-      <FileName>Employee.cs</FileName>
+      <FileName>Model\Employee.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="DirectReports" />
