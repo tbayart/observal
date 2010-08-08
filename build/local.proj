@@ -12,7 +12,7 @@
   <Target Name="Publish" DependsOnTargets="Package">
     <GoogleCodeUpload Project="observal" Username="$(googlecode_username)" Password="$(googlecode_password)"
 		  Summary="Observal $(build_version)$(build_versiontag) .NET 4.0 binaries"
-		  File="$(MSBuildProjectDirectory)\Artifacts\Binaries\Magellan-$(build_version)$(build_versiontag)-NET40.zip"
+		  File="$(MSBuildProjectDirectory)\Artifacts\Binaries\Observal-$(build_version)$(build_versiontag)-NET40.zip"
 		  Labels="Featured;Type-Archive"
       >
       <Output PropertyName="FileUrl" TaskParameter="FileUrl" />
