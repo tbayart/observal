@@ -14,6 +14,19 @@ namespace Observal.Extensions
     public class CollectionExpansionExtension : ObserverExtension
     {
         private readonly Dictionary<object, ObservableCollectionTracker> _caches = new Dictionary<object, ObservableCollectionTracker>();
+        private bool _useWeakEvents;
+
+        /// <summary>
+        /// Specifies that weak events should be used. This allows the observer to be garbage collected even 
+        /// if the events are still subscribed to on child items. This feature is NOT enabled by default.
+        /// </summary>
+        /// <returns>This instance, for fluent interfaces.</returns>
+        public CollectionExpansionExtension UseWeakEvents()
+        {
+            AssertNotConfiguredYet("Cannot change usage of weak events once this extension has been configured.");
+            _useWeakEvents = true;
+            return this;
+        }
 
         /// <summary>
         /// Notifies this extension that an item has been added to the current observer.
@@ -29,7 +42,7 @@ namespace Observal.Extensions
             if (notifiable == null)
                 return;
 
-            var cache = new ObservableCollectionTracker(Observer.Add, Observer.Release);
+            var cache = new ObservableCollectionTracker(Observer.Add, Observer.Release, _useWeakEvents);
             cache.Attach(notifiable);
             _caches.Add(attachedItem, cache);
         }
