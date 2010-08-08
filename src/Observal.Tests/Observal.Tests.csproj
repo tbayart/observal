@@ -48,7 +48,7 @@
   <ItemGroup>
     <Compile Include="Extensions\CollectionExpansionExtensionTests.cs" />
     <Compile Include="Extensions\ItemsChangedExtensionTests.cs" />
-    <Compile Include="Extensions\HierarchicyExtensionTests.cs" />
+    <Compile Include="Extensions\TraverseExtensionTests.cs" />
     <Compile Include="Extensions\ObserverExtensionTests.cs" />
     <Compile Include="Extensions\PropertyChangedExtensionTests.cs" />
     <Compile Include="ObservableCollectionTrackerTests.cs" />
