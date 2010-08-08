@@ -8,11 +8,18 @@
     <nunitconsoleexe>$(Root)\lib\NUnit\exe\nunit-console-x86.exe</nunitconsoleexe>
   </PropertyGroup>
 
-
   <Target Name="Publish" DependsOnTargets="Package">
     <GoogleCodeUpload Project="observal" Username="$(googlecode_username)" Password="$(googlecode_password)"
 		  Summary="Observal $(build_version)$(build_versiontag) .NET 4.0 binaries"
 		  File="$(MSBuildProjectDirectory)\Artifacts\Binaries\Observal-$(build_version)$(build_versiontag)-NET40.zip"
+		  Labels="Featured;Type-Archive"
+      >
+      <Output PropertyName="FileUrl" TaskParameter="FileUrl" />
+    </GoogleCodeUpload>
+    
+    <GoogleCodeUpload Project="observal" Username="$(googlecode_username)" Password="$(googlecode_password)"
+		  Summary="Observal $(build_version)$(build_versiontag) Silverlight 4.0 binaries"
+		  File="$(MSBuildProjectDirectory)\Artifacts\Binaries\Observal-$(build_version)$(build_versiontag)-SL40.zip"
 		  Labels="Featured;Type-Archive"
       >
       <Output PropertyName="FileUrl" TaskParameter="FileUrl" />
@@ -92,6 +99,24 @@
     <Zip Files="@(BinaryFilesToZip)"
       WorkingDirectory="$(MSBuildProjectDirectory)\Artifacts\Q\NET40"
       ZipFileName="$(MSBuildProjectDirectory)\Artifacts\Binaries\Observal-$(build_version)$(build_versiontag)-NET40.zip"
+      ZipLevel="10"
+      />
+
+    <!-- Zip binaries (SL 4.0) -->
+    <ItemGroup>
+      <SLBinaryFiles Include="$(Root)\src\Observal.Silverlight\bin\Release\*.*" />
+    </ItemGroup>
+    <ItemGroup>
+      <SLInfoFiles Include="$(Root)\license.txt" />
+    </ItemGroup>
+    <Copy SourceFiles="@(SLBinaryFiles)" DestinationFolder="$(MSBuildProjectDirectory)\Artifacts\Q\SL40\Assemblies" />
+    <Copy SourceFiles="@(SLInfoFiles)" DestinationFolder="$(MSBuildProjectDirectory)\Artifacts\Q\SL40" />
+    <ItemGroup>
+      <SLBinaryFilesToZip Include="$(MSBuildProjectDirectory)\Artifacts\Q\SL40\**\*.*" />
+    </ItemGroup>
+    <Zip Files="@(SLBinaryFilesToZip)"
+      WorkingDirectory="$(MSBuildProjectDirectory)\Artifacts\Q\SL40"
+      ZipFileName="$(MSBuildProjectDirectory)\Artifacts\Binaries\Observal-$(build_version)$(build_versiontag)-SL40.zip"
       ZipLevel="10"
       />
     
