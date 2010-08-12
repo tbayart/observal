@@ -28,7 +28,7 @@
     <GoogleCodeUpload Project="observal" Username="$(googlecode_username)" Password="$(googlecode_password)"
 		  Summary="Observal $(build_version)$(build_versiontag) source code (includes sample application)"
 		  File="$(MSBuildProjectDirectory)\Artifacts\Binaries\Observal-$(build_version)$(build_versiontag)-source.zip"
-		  Labels="Featured;Type-Source"
+		  Labels="Featured;Type-Source" Timeout="1200"
       >
       <Output PropertyName="FileUrl" TaskParameter="FileUrl" />
     </GoogleCodeUpload>
